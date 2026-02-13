@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Sreelu ❤️</title>
+    
+    <link rel="icon" type="image/png" href="assets/finale.png">
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div id="login-screen" class="screen active">
+        <div class="glass-card login-card">
+            <img src="assets/login.png" alt="Secret Lock" class="hero-image">
+            <h1>Hey Sreelu ❤️</h1>
+            <p>I've locked a surprise for you in the stars.</p>
+            <input type="text" id="nickname-input" placeholder="Enter what/how you call me ..." autocomplete="off">
+            <button onclick="checkLogin()">Unlock My Heart 🔓</button>
+            <p id="error-msg" class="hidden">Try again, baby! 😉</p>
+        </div>
+    </div>
+
+    <div id="main-screen" class="screen hidden">
+        <div class="glass-card content-card">
+            <div class="progress-container">
+                <div class="progress-bar" id="progress-bar"></div>
+            </div>
+            
+            <div id="content-area">
+                <h3 id="day-header" class="glow-text-small">Loading...</h3>
+                <div class="image-container">
+                    <img id="day-image" src="" alt="Surprise Image" class="fade-in">
+                </div>
+                <h1 id="day-title">Loading...</h1>
+                <p id="day-msg">Loading...</p>
+            </div>
+
+            <div class="nav-buttons">
+                <button id="prev-btn" onclick="prevDay()" class="hidden">Previous</button>
+                <button id="next-btn" onclick="nextDay()">Next Surprise ❤️</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="proposal-screen" class="screen hidden">
+        <div class="glass-card proposal-card">
+            <img src="assets/finale.png" alt="Exploding Heart" class="hero-image finale-image">
+            <h1 class="glow-text-large">My Dearest Sreelu...</h1>
+            <p>You are my universe. The journey is beautiful, but the destination is you.</p>
+            <h2 class="big-question">Will you be my Valentine? 🌹</h2>
+            
+            <div class="proposal-buttons">
+                <button id="yes-btn" onclick="handleYes()">YES! I'd Love To! ❤️</button>
+                <button id="no-btn">No 😢</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="success-modal" class="modal hidden">
+        <div class="modal-content glass-card">
+            <h1 class="glow-text">I Knew It! 💖</h1>
+            <p>Best. Day. Ever.</p>
+            <p>Call me right now! 📞 I love you!</p>
+            <div class="heart-animation">❤️</div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
