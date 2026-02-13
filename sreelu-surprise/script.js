@@ -1,4 +1,4 @@
-// --- DATA ---
+// --- DATA: The Content for Each Day ---
 const days = [
     { date: "Feb 7", title: "Rose Day 🌹", msg: "Like this crystal rose, my love for you is rare and forever glowing.", image: "assets/day1.png" },
     { date: "Feb 8", title: "Propose Day 💍", msg: "A ring is a circle with no end. That's how long I want to be yours.", image: "assets/day2.png" },
@@ -11,7 +11,18 @@ const days = [
 
 let currentIndex = 0;
 
-// 1. LOGIN
+// --- 0. PRELOADER (Fixes flickering) ---
+// This downloads all images in the background as soon as the site opens
+function preloadImages() {
+    days.forEach(day => {
+        const img = new Image();
+        img.src = day.image;
+    });
+    new Image().src = "assets/finale.png";
+}
+preloadImages(); // Run immediately
+
+// --- 1. LOGIN LOGIC ---
 function checkLogin() {
     const input = document.getElementById('nickname-input');
     const val = input.value.toLowerCase().trim();
@@ -36,29 +47,46 @@ function checkLogin() {
     }
 }
 
-// 2. JOURNEY
+// --- 2. JOURNEY LOGIC (Smoother Transition) ---
 function loadDay(index) {
     const data = days[index];
     const contentArea = document.getElementById('content-area');
+    const img = document.getElementById('day-image');
+
+    // Step A: Hide current content
     contentArea.style.opacity = '0';
     
+    // Step B: Wait for fade out (500ms), then load new data
     setTimeout(() => {
         document.getElementById('day-header').innerText = data.date;
         document.getElementById('day-title').innerText = data.title;
         document.getElementById('day-msg').innerText = data.msg;
         
-        const img = document.getElementById('day-image');
+        // Start loading the new image
         img.src = data.image;
-        img.classList.remove('fade-in');
-        void img.offsetWidth; // Trigger reflow
-        img.classList.add('fade-in');
 
-        contentArea.style.opacity = '1';
-    }, 200);
+        // Define what happens when image is ready
+        const showContent = () => {
+            contentArea.style.opacity = '1'; // Show only when ready
+            img.classList.remove('fade-in');
+            void img.offsetWidth; // Trigger reflow
+            img.classList.add('fade-in');
+        };
 
+        // Check if image is already loaded (from cache) or needs to wait
+        if (img.complete) {
+            showContent();
+        } else {
+            img.onload = showContent;
+        }
+
+    }, 500); // This matches the CSS transition time
+
+    // Update Progress Bar
     const progress = ((index + 1) / days.length) * 100;
     document.getElementById('progress-bar').style.width = `${progress}%`;
 
+    // Handle Buttons
     document.getElementById('prev-btn').classList.toggle('hidden', index === 0);
     
     const nextBtn = document.getElementById('next-btn');
@@ -85,7 +113,7 @@ function prevDay() {
     }
 }
 
-// 3. PROPOSAL
+// --- 3. PROPOSAL LOGIC ---
 function showProposal() {
     const mainScreen = document.getElementById('main-screen');
     mainScreen.style.opacity = '0';
@@ -96,7 +124,7 @@ function showProposal() {
     }, 500);
 }
 
-// 4. THE RUNAWAY 'NO' BUTTON GAME
+// --- 4. THE RUNAWAY 'NO' BUTTON GAME ---
 function moveNoButton() {
     const btn = document.getElementById('no-btn');
     const container = document.querySelector('.proposal-card');
@@ -125,7 +153,7 @@ noBtn.addEventListener('touchstart', (e) => {      // Mobile
     moveNoButton();
 });
 
-// 5. SUCCESS FINALE
+// --- 5. SUCCESS FINALE ---
 function handleYes() {
     const duration = 3 * 1000;
     const end = Date.now() + duration;
